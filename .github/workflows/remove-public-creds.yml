@@ -1,0 +1,29 @@
+name: Remove public credential literals
+
+on:
+  push:
+    paths:
+      - 'scripts/remove_public_creds.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply patch
+        run: python scripts/remove_public_creds.py
+      - name: Push branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -B aavya-remove-public-creds
+          git add -A
+          git commit -m 'Remove public student credential literals'
+          git push --force origin aavya-remove-public-creds
