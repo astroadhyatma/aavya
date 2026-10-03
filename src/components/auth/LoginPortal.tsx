@@ -82,7 +82,7 @@ export const LoginPortal: React.FC = () => {
   const [schoolCreatedMsg, setSchoolCreatedMsg] = useState<string | null>(null);
 
   // Handle Student Login Submit
-  const handleStudentLogin = (e: React.FormEvent) => {
+  const handleStudentLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
     if (!studentCode.trim()) {
@@ -90,7 +90,7 @@ export const LoginPortal: React.FC = () => {
       return;
     }
 
-    const res = loginWithStudentCode(studentCode.trim(), studentPin.trim() || undefined);
+    const res = await loginWithStudentCode(studentCode.trim(), studentPin.trim() || undefined);
     if (!res.success) {
       setLoginError(
         res.error ||
@@ -337,7 +337,7 @@ export const LoginPortal: React.FC = () => {
                     type="text"
                     value={studentCode}
                     onChange={(e) => setStudentCode(e.target.value)}
-                    placeholder="E.g., AAVYA-HER-S1124, AAVYA-HER-P401 or Name"
+                    placeholder="Enter your private ID"
                     className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm font-mono rounded-xl border border-[#D5D5CB] bg-[#FAFAF8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] uppercase tracking-wider"
                     required
                   />
@@ -385,60 +385,10 @@ export const LoginPortal: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              {/* 1-Click Fast Personas */}
               <div className="pt-3 border-t border-neutral-100">
-                <span className="text-[11px] text-neutral-500 font-semibold block mb-2 text-center">
-                  {isHi ? 'त्वरित 1-क्लिक टेस्ट विद्यार्थी (Click to test):' : 'Instant 1-Click Demo Profiles:'}
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    {
-                      code: 'AAVYA-HER-S1124',
-                      name: 'Rohan Sen',
-                      grade: isHi ? 'कक्षा 11 (Gr 11)' : 'Grade 11 (Senior)',
-                      pin: '1234',
-                      color: 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-900',
-                    },
-                    {
-                      code: 'AAVYA-HER-P401',
-                      name: 'Anaya Verma',
-                      grade: isHi ? 'कक्षा 4 (Gr 4)' : 'Grade 4 (Primary)',
-                      pin: '1234',
-                      color: 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-900',
-                    },
-                    {
-                      code: 'AAVYA-HER-M719',
-                      name: 'Kabir Mehta',
-                      grade: isHi ? 'कक्षा 7 (Gr 7)' : 'Grade 7 (Middle)',
-                      pin: '1234',
-                      color: 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-sky-900',
-                    },
-                    {
-                      code: 'AAVYA-HER-C242',
-                      name: 'Tara Deshmukh',
-                      grade: isHi ? 'कॉलेज (College)' : 'Collegiate Division',
-                      pin: '1234',
-                      color: 'bg-purple-50 hover:bg-purple-100 border-purple-200 text-purple-900',
-                    },
-                  ].map((demo) => (
-                    <button
-                      key={demo.code}
-                      type="button"
-                      onClick={() => {
-                        setStudentCode(demo.code);
-                        setStudentPin(demo.pin);
-                        loginWithStudentCode(demo.code, demo.pin);
-                      }}
-                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${demo.color}`}
-                    >
-                      <div className="font-bold text-xs leading-snug">{demo.name}</div>
-                      <div className="text-[10px] opacity-80">{demo.grade}</div>
-                      <div className="font-mono text-[9px] mt-1 opacity-70">
-                        ID: {demo.code} · PIN: {demo.pin}
-                      </div>
-                    </button>
-                  ))}
-                </div>
+                <p className="text-[11px] text-neutral-500 text-center">
+                  {isHi ? 'आपकी ID और password सुरक्षित server पर सत्यापित होते हैं।' : 'Your ID and password are verified securely on the server.'}
+                </p>
               </div>
             </form>
           )}

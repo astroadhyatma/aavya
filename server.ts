@@ -15,6 +15,31 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
+// Private authentication store. Credentials are supplied only through the
+// server environment and are never bundled into the client.
+type PrivateAuthUser = {
+  code: string; password: string; id: string; name: string; email: string;
+  stage: string; schoolId: string; schoolName: string; classSection?: string;
+  gradeNumber?: number | string; rollNumber?: string;
+};
+
+function getPrivateAuthUsers(): PrivateAuthUser[] {
+  try {
+    const parsed = JSON.parse(process.env.AAVYA_AUTH_USERS_JSON || '[]');
+    return Array.isArray(parsed) ? parsed : [];
+  } catch { return []; }
+}
+
+app.post('/api/auth/login', (req: Request, res: Response) => {
+  const code = String(req.body?.code || '').trim().toUpperCase();
+  const password = String(req.body?.password || '').trim();
+  if (!code || !password) return res.status(400).json({ error: 'ID and password are required.' });
+  const user = getPrivateAuthUsers().find((item) => item.code.toUpperCase() === code && item.password === password);
+  if (!user) return res.status(401).json({ error: 'Invalid ID or password.' });
+  return res.json({ user: { id:user.id, name:user.name, email:user.email, role:'student', stage:user.stage, schoolId:user.schoolId, schoolName:user.schoolName, classSection:user.classSection, gradeNumber:user.gradeNumber, rollNumber:user.rollNumber } });
+});
+
+
 // Initialize default Gemini Client
 let defaultGeminiClient: GoogleGenAI | null = null;
 if (process.env.GEMINI_API_KEY) {
