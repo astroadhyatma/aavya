@@ -1,0 +1,41 @@
+name: Extract AAVYA App
+
+on:
+  push:
+    paths:
+      - 'aavya---b2b-digital-mental-wellbeing-platform.zip'
+      - '.github/workflows/extract-aavya.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract app archive
+        run: |
+          rm -rf extracted-aavya
+          mkdir -p extracted-aavya
+          unzip -q aavya---b2b-digital-mental-wellbeing-platform.zip -d extracted-aavya
+          cp -a extracted-aavya/. .
+          rm -rf extracted-aavya
+          rm -f aavya---b2b-digital-mental-wellbeing-platform.zip
+
+      - name: Commit extracted project
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No extracted changes to commit.'
+          else
+            git commit -m 'Extract AAVYA application source'
+            git push
+          fi
