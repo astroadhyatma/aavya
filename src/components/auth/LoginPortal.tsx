@@ -149,7 +149,7 @@ export const LoginPortal: React.FC = () => {
       stage: mgrStage,
       parentConsent: 'Approved',
       customPasscode: mgrId.trim() || undefined,
-      passwordPin: mgrPin.trim() || '1234',
+      passwordPin: mgrPin.trim(),
     });
 
     setMgrMsg({
@@ -364,7 +364,7 @@ export const LoginPortal: React.FC = () => {
                     type={showPin ? 'text' : 'password'}
                     value={studentPin}
                     onChange={(e) => setStudentPin(e.target.value)}
-                    placeholder={isHi ? 'पिन (डिफ़ॉल्ट 1234)' : 'PIN (Default: 1234)'}
+                    placeholder={isHi ? 'पिन (डिफ़ॉल्ट 1234)' : 'PIN (your private PIN)'}
                     className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-[#D5D5CB] bg-[#FAFAF8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
                   />
                 </div>
@@ -466,7 +466,7 @@ export const LoginPortal: React.FC = () => {
                     type="text"
                     value={customPassword}
                     onChange={(e) => setCustomPassword(e.target.value)}
-                    placeholder="E.g., 1234 or Pass@1"
+                    placeholder="Enter private PIN"
                     className="w-full px-3 py-2 text-xs rounded-xl border border-[#D5D5CB] bg-[#FAFAF8]"
                   />
                 </div>
@@ -607,7 +607,7 @@ export const LoginPortal: React.FC = () => {
                       type="text"
                       value={mgrPin}
                       onChange={(e) => setMgrPin(e.target.value)}
-                      placeholder="1234"
+                      placeholder="Enter private PIN"
                       className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-[#D5D5CB] bg-white"
                     />
                   </div>
@@ -675,7 +675,7 @@ export const LoginPortal: React.FC = () => {
                         <div className="font-mono text-[10px] text-[#2D6A4F] flex items-center gap-2 mt-0.5">
                           <span>ID: {stu.studentPasscode || stu.anonymousId}</span>
                           <span>·</span>
-                          <span>PIN: {stu.passwordPin || '1234'}</span>
+                          <span>PIN: {stu.passwordPin}</span>
                         </div>
                       </div>
 
@@ -684,7 +684,7 @@ export const LoginPortal: React.FC = () => {
                           type="button"
                           onClick={() => {
                             setStudentCode(stu.studentPasscode || stu.anonymousId);
-                            setStudentPin(stu.passwordPin || '1234');
+                            setStudentPin(stu.passwordPin);
                             setActiveTab('student_login');
                           }}
                           className="px-2 py-1 text-[10px] font-semibold text-[#2D6A4F] bg-[#E8F4EC] hover:bg-[#D5EAD9] rounded-lg cursor-pointer"
