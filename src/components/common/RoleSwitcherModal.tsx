@@ -21,7 +21,6 @@ export const RoleSwitcherModal: React.FC = () => {
     roleModalOpen,
     setRoleModalOpen,
     loginAsStaff,
-    loginWithStudentCode,
     logout,
   } = useApp();
 
@@ -90,7 +89,6 @@ export const RoleSwitcherModal: React.FC = () => {
     label: string;
     cohort: string;
     studentName: string;
-    code: string;
     focus: string;
   }[] = [
     {
@@ -98,7 +96,6 @@ export const RoleSwitcherModal: React.FC = () => {
       label: 'Classes 1–5 (Primary)',
       cohort: 'Ages 6–10',
       studentName: 'Anaya Verma (Grade 4-A)',
-      code: 'AAVYA-HER-P401',
       focus: 'Playful mascot, gentle balloon breathing, big emotion naming, kindness habits.',
     },
     {
@@ -106,7 +103,6 @@ export const RoleSwitcherModal: React.FC = () => {
       label: 'Classes 6–8 (Middle School)',
       cohort: 'Ages 11–14',
       studentName: 'Kabir Mehta (Grade 7-B)',
-      code: 'AAVYA-HER-M719',
       focus: 'Peer relations, self-esteem, healthy screen boundaries, 4-7-8 breath.',
     },
     {
@@ -114,7 +110,6 @@ export const RoleSwitcherModal: React.FC = () => {
       label: 'Classes 9–12 (Senior / High School)',
       cohort: 'Ages 15–18',
       studentName: 'Rohan Sen (Grade 11-Sci)',
-      code: 'AAVYA-HER-S1124',
       focus: 'Exam anxiety, cognitive reframing, sleep protection, study focus timers.',
     },
     {
@@ -122,14 +117,13 @@ export const RoleSwitcherModal: React.FC = () => {
       label: 'College & University',
       cohort: 'Higher Education',
       studentName: 'Tara Deshmukh (UG-Year 2)',
-      code: 'AAVYA-HER-C242',
       focus: 'Independence, campus transitions, imposter syndrome, career clarity, somatic resets.',
     },
   ];
 
   const handleRoleSelect = (r: typeof rolesList[0]) => {
     if (r.key === 'student') {
-      loginWithStudentCode('AAVYA-HER-S1124');
+      if (currentUser) setRoleModalOpen(false);
     } else {
       loginAsStaff(r.key, r.defaultEmail);
       setRoleModalOpen(false);
@@ -220,7 +214,6 @@ export const RoleSwitcherModal: React.FC = () => {
                   <button
                     key={st.key}
                     onClick={() => {
-                      loginWithStudentCode(st.code);
                       setStudentStage(st.key);
                       setRoleModalOpen(false);
                     }}

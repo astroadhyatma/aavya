@@ -32,7 +32,7 @@ interface AppContextType {
 
   // Authentication & Session
   currentUser: AuthUser | null;
-  loginWithStudentCode: (code: string, passwordPin?: string) => { success: boolean; error?: string };
+  loginWithStudentCode: (code: string, passwordPin?: string) => Promise<{ success: boolean; error?: string }>;
   loginWithSchoolKey: (
     schoolKey: string,
     studentName: string,
@@ -442,162 +442,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  // Login With Individual Student Passcode (e.g. AAVYA-HER-S1124)
-  const loginWithStudentCode = (
-    rawCode: string,
-    passwordPin?: string
-  ): { success: boolean; error?: string } => {
-    const code = rawCode.trim().toUpperCase();
-
-    // 1. Check if matches pre-configured student by passcode, anonymousId, name, roll or email
-    const matchedStudent = allStudents.find(
-      (s) =>
-        s.anonymousId.toUpperCase() === code ||
-        (s.studentPasscode && s.studentPasscode.toUpperCase() === code) ||
-        (s.rollNumber && `ROLL-${s.rollNumber}`.toUpperCase() === code) ||
-        s.name.toUpperCase() === code ||
-        s.email.toUpperCase() === code ||
-        code.includes(s.rollNumber)
-    );
-
-    // 2. Check in school licenses issued keys
-    let matchedPasscode: StudentPasscode | undefined;
-    let matchedLicense: SchoolLicense | undefined;
-
-    for (const lic of schoolLicenses) {
-      const found = lic.issuedKeys.find((k) => k.code.toUpperCase() === code);
-      if (found) {
-        matchedPasscode = found;
-        matchedLicense = lic;
-        break;
-      }
-    }
-
-    if (matchedStudent) {
-      if (matchedStudent.passwordPin && passwordPin && matchedStudent.passwordPin !== passwordPin.trim()) {
-        return { success: false, error: 'Incorrect Password / PIN entered for this account.' };
-      }
-
-      const user: AuthUser = {
-        id: matchedStudent.id,
-        name: matchedStudent.name,
-        email: matchedStudent.email,
-        role: 'student',
-        stage: matchedStudent.stage,
-        schoolId: matchedStudent.institutionId,
-        schoolName: matchedStudent.institutionName,
-        schoolLicenseKey: 'HERITAGE-PILOT-50',
-        studentPasscode: matchedStudent.studentPasscode || code,
-        passwordPin: matchedStudent.passwordPin,
-        classSection: matchedStudent.classSection,
-        gradeNumber: matchedStudent.gradeNumber,
-        rollNumber: matchedStudent.rollNumber,
-      };
+  // Login with private server-side student credentials.
+  const loginWithStudentCode = async (rawCode: string, passwordPin?: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: rawCode, password: passwordPin || '' }) });
+      const payload = await response.json();
+      if (!response.ok || !payload.user) return { success: false, error: payload.error || 'Invalid ID or password.' };
+      const serverUser = payload.user as AuthUser;
+      const user: AuthUser = { ...serverUser, role: 'student', studentPasscode: undefined, passwordPin: undefined };
       setCurrentUser(user);
       return { success: true };
+    } catch {
+      return { success: false, error: 'Authentication service is unavailable. Please try again.' };
     }
-
-    if (matchedPasscode && matchedLicense) {
-      // Check if this key was already claimed by an existing student
-      if (matchedPasscode.studentId) {
-        const existing = allStudents.find((s) => s.id === matchedPasscode?.studentId);
-        if (existing) {
-          const user: AuthUser = {
-            id: existing.id,
-            name: existing.name,
-            email: existing.email,
-            role: 'student',
-            stage: existing.stage,
-            schoolId: matchedLicense.id,
-            schoolName: matchedLicense.schoolName,
-            schoolLicenseKey: matchedLicense.key,
-            studentPasscode: matchedPasscode.code,
-            classSection: existing.classSection,
-            gradeNumber: existing.gradeNumber,
-            rollNumber: existing.rollNumber,
-          };
-          setCurrentUser(user);
-          return { success: true };
-        }
-      }
-
-      // If available unclaimed key, create new student account
-      const newId = `stu-${Date.now()}`;
-      const newStudent: StudentProfile = {
-        id: newId,
-        name: `Student (${matchedPasscode.section})`,
-        email: `${matchedPasscode.code.toLowerCase()}@heritage.edu.in`,
-        anonymousId: matchedPasscode.code,
-        stage: 'classes_9_12',
-        gradeNumber: 10,
-        classSection: matchedPasscode.section,
-        rollNumber: matchedPasscode.code.slice(-3),
-        institutionId: matchedLicense.id,
-        institutionName: matchedLicense.schoolName,
-        parentConsent: 'Approved',
-        assignedProgramIds: ['prog-exam-resilience'],
-        activeStreak: 1,
-        wellbeingScore: 75,
-        checkInHistory: [],
-        journalEntries: [],
-        goals: [
-          {
-            id: `g-${Date.now()}`,
-            title: 'Daily 3-min Mindful Breath',
-            category: 'mindfulness',
-            targetDaysPerWeek: 5,
-            completedDays: 0,
-            currentStreak: 0,
-            isCompletedToday: false,
-          },
-        ],
-        savedResourceIds: [],
-        studentPasscode: matchedPasscode.code,
-      };
-
-      setAllStudents((prev) => [newStudent, ...prev]);
-
-      // Update license key state
-      setSchoolLicenses((prev) =>
-        prev.map((lic) => {
-          if (lic.key === matchedLicense?.key) {
-            return {
-              ...lic,
-              usedSeats: lic.usedSeats + 1,
-              issuedKeys: lic.issuedKeys.map((k) =>
-                k.code === matchedPasscode?.code
-                  ? { ...k, status: 'claimed', studentId: newId, studentName: newStudent.name }
-                  : k
-              ),
-            };
-          }
-          return lic;
-        })
-      );
-
-      const user: AuthUser = {
-        id: newId,
-        name: newStudent.name,
-        email: newStudent.email,
-        role: 'student',
-        stage: newStudent.stage,
-        schoolId: matchedLicense.id,
-        schoolName: matchedLicense.schoolName,
-        schoolLicenseKey: matchedLicense.key,
-        studentPasscode: matchedPasscode.code,
-        classSection: newStudent.classSection,
-        gradeNumber: newStudent.gradeNumber,
-        rollNumber: newStudent.rollNumber,
-      };
-
-      setCurrentUser(user);
-      return { success: true };
-    }
-
-    return {
-      success: false,
-      error: `Invalid Student Passcode: "${rawCode}". Please check your card or ask your class advisor.`,
-    };
   };
 
   // Login With School License Key (e.g. HERITAGE-PILOT-50) & Name
