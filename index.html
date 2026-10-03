@@ -1,24 +1,28 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="AAVYA — private, practical student wellbeing for schools and colleges.">
-  <title>AAVYA — Student Wellbeing Platform</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="app">
-<header class="nav"><a class="logo" href="#top"><span>A</span><div><strong>AAVYA</strong><small>student wellbeing</small></div></a><nav><a href="#students">For Students</a><a href="#institutions">For Institutions</a><a href="#programs">Programs</a><a href="#privacy">Privacy</a></nav><button class="nav-cta" onclick="openDemo()">Request a demo</button><button class="menu" onclick="toggleMenu()">☰</button></header>
-<main id="top">
-<section class="hero"><div class="hero-copy"><div class="eyebrow">FOR SCHOOLS & COLLEGES</div><h1>A calmer, more capable student starts with the right <em>space.</em></h1><p>AAVYA is a student wellbeing platform combining private self-help tools, stage-specific programs and institution-level insights — without turning personal wellbeing into a score.</p><div class="hero-actions"><button class="primary" onclick="showApp()">Explore the student experience →</button><button class="secondary" onclick="openDemo()">Talk to AAVYA for your institution</button></div><div class="proof"><span>✓ Private student space</span><span>✓ Age & stage aware</span><span>✓ Practical, not preachy</span></div></div><div class="hero-card"><div class="card-top"><span>MYSPACE</span><b>Today</b></div><h3>How are you feeling?</h3><p>No judgement. No score.</p><div class="moods"><button onclick="quickMood(this,'Good')">Good</button><button onclick="quickMood(this,'Okay')">Okay</button><button onclick="quickMood(this,'Low')">Low</button><button onclick="quickMood(this,'Stressed')">Stressed</button></div><div class="mini-progress"><span></span></div><small>Your check-in stays private.</small></div></section>
-<section class="audience" id="students"><div><span class="eyebrow">ONE PLATFORM · TWO EXPERIENCES</span><h2>Built around the student, not the institution.</h2></div><div class="audience-grid"><button class="audience-card active" onclick="setAudience('school',this)"><span class="big-icon">01</span><h3>Schools</h3><p>Age-appropriate journeys from Classes 1–5 through Classes 11–12.</p><b>Explore school experience →</b></button><button class="audience-card" onclick="setAudience('college',this)"><span class="big-icon">02</span><h3>Colleges</h3><p>Support for transition, academic pressure, placements, belonging and everyday college life.</p><b>Explore college experience →</b></button></div></section>
-<section class="student-app" id="student-app"><div class="section-head"><span class="eyebrow">THE STUDENT EXPERIENCE</span><h2>More than a check-in.</h2><p>A private toolkit students can return to every day.</p></div><div class="app-shell"><aside><div class="app-brand">AAVYA</div><button class="tab active" data-tab="home">⌂ MySpace</button><button class="tab" data-tab="checkin">♡ Check-in</button><button class="tab" data-tab="journal">✎ Journal</button><button class="tab" data-tab="exercise">✦ Exercises</button><button class="tab" data-tab="goals">◎ Goals</button><button class="tab" data-tab="programs">▣ Programs</button><button class="tab" data-tab="progress">◔ Progress</button><div class="private">🔒 Private by design</div></aside><div class="app-content" id="appContent"></div></div></section>
-<section class="features"><div class="section-head"><span class="eyebrow">WHAT STUDENTS GET</span><h2>Small tools for real student life.</h2></div><div class="feature-grid"><article><i>✦</i><h3>Guided exercises</h3><p>Short, structured activities for stress, focus, confidence, overthinking and routines.</p></article><article><i>✎</i><h3>Private journal</h3><p>A personal space to write, reflect and track what matters without public sharing.</p></article><article><i>◎</i><h3>Goals & habits</h3><p>Turn a vague intention into one small action students can actually take.</p></article><article><i>◔</i><h3>Progress, not scores</h3><p>Help students notice actions and patterns without diagnosing or ranking wellbeing.</p></article></div></section>
-<section class="programs" id="programs"><div class="section-head"><span class="eyebrow">STAGE-SPECIFIC PROGRAMS</span><h2>Support changes as students grow.</h2></div><div class="program-grid" id="programGrid"></div></section>
-<section class="institution" id="institutions"><div class="institution-copy"><span class="eyebrow">FOR SCHOOLS & COLLEGES</span><h2>A student product institutions can actually adopt.</h2><p>Offer a structured wellbeing layer alongside your existing counselling, mentoring and student-support systems.</p><div class="checks"><span>✓ Stage-specific student journeys</span><span>✓ Programs & campaigns</span><span>✓ Aggregate institution insights</span><span>✓ Clear privacy boundaries</span></div><button class="primary" onclick="openDemo()">Request an institution demo →</button></div><div class="dashboard"><div class="dash-top"><span>INSTITUTION VIEW</span><b>Aggregate only</b></div><div class="metric-row"><div><strong>1,248</strong><small>active students</small></div><div><strong>68%</strong><small>program participation</small></div><div><strong>74%</strong><small>weekly engagement</small></div></div><div class="bars"><span style="height:45%"></span><span style="height:65%"></span><span style="height:54%"></span><span style="height:78%"></span><span style="height:62%"></span><span style="height:86%"></span><span style="height:72%"></span></div><p>Illustrative dashboard · no personal journal or private conversation is shown here.</p></div></section>
-<section class="privacy" id="privacy"><div><span class="eyebrow">PRIVACY FIRST</span><h2>Personal space stays personal.</h2><p>AAVYA is designed so the student experience and institution experience have clear boundaries. Personal journals and private conversations are not part of aggregate institution reporting.</p></div><div class="privacy-cards"><div>🔒<b>Private</b><small>Personal entries</small></div><div>◉<b>Aggregate</b><small>Institution insights</small></div><div>↗<b>Support</b><small>Referral pathways</small></div></div></section>
-<section class="cta"><span class="eyebrow">START SMALL</span><h2>Bring AAVYA to your student community.</h2><p>Start with one cohort, one program or one wellbeing campaign.</p><button class="primary" onclick="openDemo()">Request a demo →</button></section>
-</main>
-<footer><div><strong>AAVYA</strong><span>Private wellbeing for students.</span></div><span>Student support tool · Not a replacement for professional or emergency care.</span></footer>
-<div class="modal hidden" id="demoModal"><div class="modal-box"><button class="close" onclick="closeDemo()">×</button><span class="eyebrow">INSTITUTION DEMO</span><h2>Let’s talk about your students.</h2><p>Tell us what you are looking for and we’ll shape a pilot around your school or college.</p><form onsubmit="submitDemo(event)"><input required placeholder="Institution name"><select required><option value="">Institution type</option><option>School</option><option>College</option></select><input required type="text" placeholder="Your name"><input required type="email" placeholder="Work email"><textarea placeholder="What would you like AAVYA to help with?"></textarea><button class="primary" type="submit">Send enquiry →</button></form><small>Demo form only — connect this to your email/CRM before production.</small></div></div>
-</div><script src="app.js"></script></body></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AAVYA - B2B Digital Mental Wellbeing Platform</title>
+    <meta name="description" content="Enterprise-grade mental wellbeing and personal growth ecosystem for educational institutions and workplaces with privacy-separated student and admin experiences." />
+    <meta property="og:title" content="AAVYA - B2B Digital Mental Wellbeing Platform" />
+    <meta property="og:description" content="Enterprise-grade mental wellbeing and personal growth ecosystem for educational institutions and workplaces with privacy-separated student and admin experiences." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1E3F32" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="AAVYA" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#FAFAF7] text-[#192A24] antialiased selection:bg-[#2D6A4F] selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
