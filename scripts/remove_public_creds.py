@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 
+# One-time cleanup: keep real student credentials out of the public client bundle.
 p = Path('src/data/mockData.ts')
 s = p.read_text()
 s = re.sub(r"    issuedKeys: \[\n(?:.*\n)*?    \],", "    issuedKeys: [],", s, count=1)
