@@ -23,18 +23,7 @@ export const INITIAL_LICENSES: SchoolLicense[] = [
     status: 'active',
     tierName: 'Comprehensive Campus Care',
     contactEmail: 'principal@heritage.edu.in',
-    issuedKeys: [
-      { code: 'AAVYA-HER-P401', schoolKey: 'HERITAGE-PILOT-50', status: 'claimed', studentId: 'stu-primary-01', studentName: 'Anaya Verma', section: '4-A' },
-      { code: 'AAVYA-HER-M719', schoolKey: 'HERITAGE-PILOT-50', status: 'claimed', studentId: 'stu-middle-02', studentName: 'Kabir Mehta', section: '7-B' },
-      { code: 'AAVYA-HER-S1124', schoolKey: 'HERITAGE-PILOT-50', status: 'claimed', studentId: 'stu-senior-03', studentName: 'Rohan Sen', section: '11-Sci' },
-      { code: 'AAVYA-HER-C242', schoolKey: 'HERITAGE-PILOT-50', status: 'claimed', studentId: 'stu-college-04', studentName: 'Tara Deshmukh', section: 'UG-Year2' },
-      { code: 'AAVYA-HER-4A02', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: '4-A' },
-      { code: 'AAVYA-HER-7B20', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: '7-B' },
-      { code: 'AAVYA-HER-11S25', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: '11-Sci' },
-      { code: 'AAVYA-HER-UG243', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: 'UG-Year2' },
-      { code: 'AAVYA-HER-10A15', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: '10-A' },
-      { code: 'AAVYA-HER-10B08', schoolKey: 'HERITAGE-PILOT-50', status: 'available', section: '10-B' },
-    ],
+    issuedKeys: [],
   },
   {
     id: 'lic-dps-25',
@@ -46,10 +35,7 @@ export const INITIAL_LICENSES: SchoolLicense[] = [
     status: 'active',
     tierName: 'Pilot Tier',
     contactEmail: 'coordinator@dps.edu.in',
-    issuedKeys: [
-      { code: 'AAVYA-DPS-9A01', schoolKey: 'DPS-WELLBEING-25', status: 'available', section: '9-A' },
-      { code: 'AAVYA-DPS-9A02', schoolKey: 'DPS-WELLBEING-25', status: 'available', section: '9-A' },
-    ],
+    issuedKeys: [],
   },
 ];
 

@@ -35,7 +35,7 @@ export const RosterManagement: React.FC = () => {
   const [parentName, setParentName] = useState('');
   const [parentEmail, setParentEmail] = useState('');
   const [customPasscode, setCustomPasscode] = useState('');
-  const [passwordPin, setPasswordPin] = useState('1234');
+  const [passwordPin, setPasswordPin] = useState('');
 
   // Extract all sections from institution departments
   const allSections = Array.from(
@@ -69,7 +69,7 @@ export const RosterManagement: React.FC = () => {
       parentName: parentName.trim() || undefined,
       parentEmail: parentEmail.trim() || undefined,
       customPasscode: customPasscode.trim() || undefined,
-      passwordPin: passwordPin.trim() || '1234',
+      passwordPin: passwordPin.trim(),
     });
 
     // Reset
@@ -296,7 +296,7 @@ export const RosterManagement: React.FC = () => {
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <span className="font-mono text-[10px] bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded text-neutral-700 whitespace-nowrap">
-                          PIN: {stu.passwordPin || '1234'}
+                          PIN: {stu.passwordPin}
                         </span>
                         <button
                           type="button"
@@ -450,7 +450,7 @@ export const RosterManagement: React.FC = () => {
                     type="text"
                     value={passwordPin}
                     onChange={(e) => setPasswordPin(e.target.value)}
-                    placeholder="1234"
+                    placeholder="Enter private PIN"
                     className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-[#D5D5CB] bg-[#FAFAF8]"
                   />
                 </div>
