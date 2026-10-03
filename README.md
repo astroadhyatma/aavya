@@ -1,36 +1,20 @@
-# AAVYA
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-**Private student wellbeing for schools and colleges.**
+# Run and deploy your AI Studio app
 
-AAVYA V1 is focused only on two markets: **schools** and **colleges**. The product combines a private student space with stage-specific programs and an institution layer for aggregate engagement and wellbeing insights.
+This contains everything you need to run your app locally.
 
-## Student experience
-- School stages: Classes 1–5, 6–8, 9–10, 11–12
-- College stages: Year 1–4 and PG
-- Daily check-ins
-- Private journal
-- Guided exercises
-- Goals
-- Progress/patterns
-- Stage-specific programs
-- AAVYA companion concept
+View your app in AI Studio: https://ai.studio/apps/ef6c4ebc-d1d3-42c0-8f9b-567af5a7aa5c
 
-## Institution experience
-- Institution onboarding
-- Student/member management
-- Program assignment
-- Aggregate engagement
-- Aggregate wellbeing trends
-- Demo/enquiry funnel
-- Privacy boundary: no raw student journals or private conversations in institution reporting
+## Run Locally
 
-## Production backend
-`supabase/schema.sql` contains the initial Postgres model and Row Level Security policies. `PRODUCTION.md` contains the production launch checklist and safety/privacy gates.
+**Prerequisites:**  Node.js
 
-A Supabase project still needs to be created and connected before real accounts or real student data can be used. Never place a Supabase `service_role` key in frontend code.
 
-## Current frontend
-The root `index.html`, `style.css`, and `app.js` provide the business site and interactive student experience without a Next.js build dependency. This keeps the frontend easy to deploy while the backend remains independently hosted.
-
-## Important
-The current UI is a product build foundation, not evidence of clinical efficacy. Before onboarding real students, complete consent/age handling, privacy/legal review, security testing, data retention/deletion, crisis/support escalation, monitoring and an audited AI gateway.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
