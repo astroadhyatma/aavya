@@ -1,0 +1,6 @@
+{
+  "name": "AAVYA - B2B Digital Mental Wellbeing Platform",
+  "description": "Enterprise-grade mental wellbeing and personal growth ecosystem for educational institutions and workplaces with privacy-separated student and admin experiences.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
